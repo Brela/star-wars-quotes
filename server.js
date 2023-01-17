@@ -26,13 +26,15 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
         app.use(bodyParser.json())
         app.use(express.static('public'))
 
-        app.use(express.static('public', {
-            setHeaders: function (res, path) {
-                if (mime.lookup(path) === 'application/javascript') {
-                    res.setHeader('Content-Type', mime.contentType(path));
-                }
-            }
-        }));
+
+        // tried to add this to fix the error in the console of browser that says 'can't execute MIME type', doesn't work
+        /*   app.use(express.static('public', {
+              setHeaders: function (res, path) {
+                  if (mime.lookup(path) === 'application/javascript') {
+                      res.setHeader('Content-Type', mime.contentType(path));
+                  }
+              }
+          })); */
 
         app.get('/', (req, res) => {     // req = request & res = response  
             db.collection('quotes').find().toArray()
